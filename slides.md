@@ -256,11 +256,9 @@ Android Studio > Preferences > Plugins > browse repositories Google Sceneform To
 
 Look in `app/sampledata/models`. We've provided some models. 
 
-Each model has a Wavefront `.obj` and `.mtl` (and optional `.png`) file associated with it.
-
 - `.obj` - encodes the 3D geometry of the model (e.g. vertices, polygon faces)
-- `.mtl` - material referenced by the `.obj`, describes the surface appearance of the model (e.g. color, texture, reflection)
-- `.png` - optional visual texture referenced by the `.mtl` to be mapped onto the surface of the model.
+- `.mtl` - material referenced by the `.obj`, describes the surface of the model (e.g. color, texture, reflection)
+- `.png` - optional visual texture referenced by the `.mtl` to be mapped onto the surface of the model
 
 ---
 
@@ -273,9 +271,20 @@ In addition to Wavefront `obj`, Sceneform also supports importing:
 
 ---
 
-# Sceneform assets
+# Sceneform assets: importing
 
+1. Select `app/sampledata/models/coffee.obj` and then right mouse click to get the menu.
+2. Pick `New > Sceneform asset`.
+3. Click `Finish`.
 
+---
+
+# Sceneform assets: editing
+
+We've now converted into Sceneform's `.sfa` and `.sfb` formats.
+
+- `.sfb` - Sceneform Binary, points to the models, material definitions, and textures in the source asset.
+- `.sfa` - Sceneform Asset Definition, a human-readable description of the `.sfb`
 
 ---
 
