@@ -16,6 +16,6 @@ A link to the presentation slides can be found [here](ADD LINK TO SLIDES).
 ## Links
 
 - [Google Poly](https://poly.google.com/) - browse and download from thousands of open-source 3D objects.
-- [ARCore](https://developers.google.com/ar/) - Documentation for the ARCore SDK.
-- [Sceneform](https://developers.google.com/ar/develop/java/sceneform/) - Documentation for the Sceneform SDK.
+- [ARCore](https://developers.google.com/ar/) - documentation for the ARCore SDK.
+- [Sceneform](https://developers.google.com/ar/develop/java/sceneform/) - documentation for the Sceneform SDK.
 - [The New York Times AR/Immersive](https://www.nytimes.com/spotlight/augmented-reality) - Augmented Reality at The New York Times.

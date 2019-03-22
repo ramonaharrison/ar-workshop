@@ -84,9 +84,8 @@ In `MainActivity.kt`
 
 # Emulator troubleshooting
 
-- Make sure the emulator is version ______ or higher.
-- Install the ARCore APK (link in `README.md`)
-- If you're still stuck, follow the steps 
+- Check that your Android Emulator is updated to 27.2.9 or later.
+- Follow the instructions linked in the README.
 
 ---
 
