@@ -68,24 +68,6 @@ In `content_main.xml`
 
 ---
 
-# Add the ARFragment
-
-In `MainActivity.kt`
-
-```kotlin
-    private lateinit var fragment: ArFragment
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        
-        // ...
-        
-        fragment = supportFragmentManager.findFragmentById(R.id.sceneform_fragment) as ArFragment
-    }
-```
-
----
-
 # Run it!
 
 ---
