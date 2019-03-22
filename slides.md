@@ -170,6 +170,11 @@ In `MainActivity.kt`, set up the `TapHelper.kt` gesture detector.
         arSceneView.setOnTouchListener(tapHelper)
     }
 ```
+---
+
+# Update loop
+
+
 
 ---
 
@@ -237,21 +242,40 @@ In `MainActivity.kt`
 
 # Sceneform plugin
 
+Sceneform has an Android Studio plugin for importing, editing, and previewing 3D models.
+
 ---
 
 # Sceneform plugin: installation
 
----
-
-# Import an asset
+Android Studio > Preferences > Plugins > browse repositories Google Sceneform Tools (Beta)
 
 ---
 
 # Supported formats
 
+Look in `app/sampledata/models`. We've provided some models. 
+
+Each model has a Wavefront `.obj` and `.mtl` (and optional `.png`) file associated with it.
+
+- `.obj` - encodes the 3D geometry of the model (e.g. vertices, polygon faces)
+- `.mtl` - material referenced by the `.obj`, describes the surface appearance of the model (e.g. color, texture, reflection)
+- `.png` - optional visual texture referenced by the `.mtl` to be mapped onto the surface of the model.
+
+---
+
+# Supported formats
+
+In addition to Wavefront `obj`, Sceneform also supports importing:
+
+- FBX, with or without animations
+- glTF (animations not supported)
+
 ---
 
 # Sceneform assets
+
+
 
 ---
 
