@@ -1,89 +1,180 @@
 # ARCore & Sceneform Workshop
 
----
-
-AR Core overview
-
----
-
-1st: This is just a library, add to gradle
+- Welcome! Before we get started...
+- Clone the project
+- Check that Android Studio is the correct version or higher
+- Set up an ARCore supported device...
+- ... or emulator
 
 ---
 
-2nd: manifest
+# About ARCore
+
+- Google released ARCore in February 2018.
+- ARCore helps devs build apps that can understand the environment around a device and place objects and information in it.
 
 ---
 
-3rd: Fragment stuff
+# About Sceneform
+
+- Google followed up with Sceneform at I/O 2018.
+- Sceneform helps devs render 3D scenes on Android without needing to learn OpenGL.
 
 ---
 
-4th: Save and test
+# Add the dependency
+
+In `app/build.gradle`
+
+```groovy
+
+dependencies {
+	// ...
+
+	implementation "com.google.ar.sceneform.ux:sceneform-ux:1.4.0"
+}
+```
 
 ---
 
-Interlude: Emulator setups + is it working 
+# Configure the manifest
+
+Setup camera in the `<manifest>` section
+
+```xml
+<uses-permission android:name="android.permission.CAMERA" />
+<uses-feature android:name="android.hardware.camera.ar" android:required="true" />
+```
+
+In the `<application>` section, add a Play Store filter for users on devices that are not supported by ARCore.
+
+```xml
+<meta-data android:name="com.google.ar.core" android:value="required" />
+```
 
 ---
 
-4.5th: Explain how scene and anchoring around a point works
+# Add the ARFragment
+
+In `content_main.xml`
+
+```xml
+<fragment
+   android:id="@+id/sceneform_fragment"
+   android:name="com.google.ar.sceneform.ux.ArFragment"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent" />
+```
 
 ---
 
-5th: Talk about plane detection and what that's about (Fundamental concepts)
+# Add the ARFragment
+
+In `MainActivity.kt`
+
+```kotlin
+
+```
 
 ---
 
-6th: PointerDrawable given
+# Run it!
 
 ---
 
-7th: What is a hit test, tracking, update loop, why are we doing it, + impl. Maybe revise
+# Emulator troubleshooting
+
+- Make sure the emulator is version ______ or higher.
+- Install the ARCore APK (link in `README.md`)
+- If you're still stuck, follow the steps 
+
+---
+
+# Scene / 3D coordinates
+
+---
+
+# Plane detection
+
+---
+
+# Feature points
+___
+
+# Detecting taps
+
+---
+
+# Update loop
+
+---
+
+# Hit test
+
+---
+
+# Hit test
 
 --- 
 
-Interlude: Run it again 
+# Run it!
 
 ---
 
-8th: Add the sceneform plugin
+# Sceneform plugin
 
 ---
 
-9th: Import the assets + edit their scale and size
+# Sceneform plugin: installation
 
 ---
 
-10th: Add in the objects to bottom layout
+# Import an asset
 
 ---
 
-Nix the screen center thing in general
+# Supported formats
 
 ---
 
-11th: Trackable and Plane and feature points in AR Core
+# Sceneform assets
 
 ---
 
-12th: Placing the object, renderable
+# Sceneform assets: editing
+
+___
+
+# Loading assets
 
 ---
 
-13th: Adding node to scene (Scene graphs and nodes let's talk about it)
+# Renderables
 
 ---
 
-Interlude: Run it 
+# Nodes
 
 ---
 
-* Bonus Land **
+# Scene graph
 
 ---
 
-FACE THINGS?????????????
+# Run it!
 
 ---
 
-Cloud anchors????????
+# Now for the fun stuff...
+
+---
+
+# Cloud anchors
+
+---
+
+# Augmented Faces
+
+___
+
+# Grazie!
