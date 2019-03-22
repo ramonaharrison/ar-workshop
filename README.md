@@ -14,7 +14,7 @@ A link to the presentation slides can be found [here](ADD LINK TO SLIDES).
 - Follow Google's [instructions to update ARCore](https://developers.google.com/ar/develop/java/emulator) on your emulator.
 
 ## Links
-gi
+
 - [Google Poly](https://poly.google.com/) - browse and download from thousands of open-source 3D objects.
 - [ARCore](https://developers.google.com/ar/) - Documentation for the ARCore SDK.
 - [Sceneform](https://developers.google.com/ar/develop/java/sceneform/) - Documentation for the Sceneform SDK.
