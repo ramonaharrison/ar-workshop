@@ -1,4 +1,4 @@
-package com.nytimes.android.ramonaharrison
+package com.nytimes.android.ramonaharrison.helpers
 
 import android.app.Activity
 import android.content.Intent
@@ -18,12 +18,11 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+class CameraHelper(private val activity: Activity, private val fragment: CapturableView) {
 
-interface CapturableView {
-    fun getViewToCapture(): SurfaceView
-}
-
-class Camera(private val activity: Activity, private val fragment: CapturableView) {
+    interface CapturableView {
+        fun getViewToCapture(): SurfaceView
+    }
 
     fun snap() {
         val filename = generateFilename()

@@ -73,7 +73,15 @@ In `content_main.xml`
 In `MainActivity.kt`
 
 ```kotlin
+    private lateinit var fragment: ArFragment
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        
+        // ...
+        
+        fragment = supportFragmentManager.findFragmentById(R.id.sceneform_fragment) as ArFragment
+    }
 ```
 
 ---
@@ -89,15 +97,80 @@ In `MainActivity.kt`
 
 ---
 
-# Scene / 3D coordinates
+# Motion Tracking
+
+ARCore detects visually distinct **feature points** in each captured camera image and uses these points to compute a device's change in location over time.
+
+---
+
+# Motion tracking
+
+Visual feature point information is combined with measurements from the device's Inertial Measurement Unit (IMU).
+
+---
+
+# Motion tracking
+
+This combined data is used to estimate the **pose**, defined by **position** and **orientation**, of the device camera relative to the world over time.
+
+---
+
+# Pose
+
+Everything in an AR scene has a **pose** within a 3D world coordinate space. 
+
+Each **pose** is composed of:
+
+- x-axis translation
+- y-axis translation
+- z-axis translation
+- rotation
+
+---
+
+# Pose
+
+Sceneform aligns the pose of the **virtual camera** that renders your 3D content with the pose of the device's camera provided by ARCore.
+
+---
+
+# Pose
+
+Because the rendered virtual content is overlaid and aligned on top of the camera image, it appears as if your virtual content is part of the real world.
+
+---
+
+# Feature points
+
+**feature points** are visually distinct features that ARCore detects in each captured camera image (e.g. the corner of a table, a mark on a wall)
 
 ---
 
 # Plane detection
 
+ARCore looks for clusters of feature points that appear to lie on common horizontal or vertical surfaces and provides this data to Sceneform as **planes**. 
+
 ---
 
-# Feature points
+# Plane detection
+
+A **plane** is composed of:
+
+- A center **pose**
+- An **extent** along each axis
+- A **polygon**, a collection of 2D vertices approximating the detected plane.
+
+---
+
+# Plane detection
+
+The Sceneform fragment renders a plane-grid to indicate via the UI where these planes exist.
+
+---
+
+# Goal: 
+## When a user taps a point on the screen that intersects with a plane, we want to place an object at that point. 
+
 ___
 
 # Detecting taps
@@ -112,7 +185,9 @@ ___
 
 ---
 
-# Hit test
+# Anchors
+
+
 
 --- 
 
