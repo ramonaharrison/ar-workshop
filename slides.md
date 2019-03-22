@@ -60,7 +60,7 @@ In `content_main.xml`
 
 ```xml
 <fragment
-   android:id="@+id/sceneform_fragment"
+   android:id="@+id/arFragment"
    android:name="com.google.ar.sceneform.ux.ArFragment"
    android:layout_width="match_parent"
    android:layout_height="match_parent" />
