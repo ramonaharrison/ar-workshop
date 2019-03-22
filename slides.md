@@ -157,13 +157,71 @@ ___
 
 # Detecting taps
 
+In `MainActivity.kt`, set up the `TapHelper.kt` gesture detector.
+
+```kotlin
+    private lateinit var arSceneView
+    private val tapHelper = TapHelper(this)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        //...
+        
+        arSceneView = (arFragment as ArFragment).arSceneView
+        arSceneView.setOnTouchListener(tapHelper)
+    }
+```
+
 ---
 
 # Update loop
 
+```kotlin
+    private lateinit var arSceneView
+    private val tapHelper = TapHelper(this)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        //...
+        
+        arSceneView = (arFragment as ArFragment).arSceneView
+        arSceneView.setOnTouchListener(tapHelper)
+        
+        arSceneView.scene.addOnUpdateListener { frameTime ->
+            // Handle one tap per frame.
+            val motionEvent = tapHelper.poll()
+        }
+    }
+```
+
 ---
 
 # Hit test
+
+We want to determine if a **ray** extending from the **x, y** coordinate of our tap intersects a plane. 
+
+If it does, we'll place an **anchor** at the **pose of the intersection**.
+
+---
+
+# Hit test
+
+In `MainActivity.kt`
+
+```kotlin
+    private fun hitTest(x : Float, y : Float) : Boolean {
+        val frame = arSceneView.arFrame
+        val hits: List<HitResult>
+        if (frame != null) {
+            hits = frame.hitTest(x, y)
+            for (hit in hits) {
+                val trackable = hit.trackable
+                if (trackable is Plane && trackable.isPoseInPolygon(hit.hitPose)) {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+```
 
 ---
 
