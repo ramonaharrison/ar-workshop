@@ -4,8 +4,7 @@ Before we get started, take a few minutes to:
 
 - Clone this project.
 - Check that Android Studio is updated to 3.1 or later.
-- Set up an [ARCore supported device](https://developers.google.com/ar/discover/supported-devices)...
-- ... or configure your [emulator](https://developers.google.com/ar/develop/java/emulator).
+- Set up an [ARCore supported device](https://developers.google.com/ar/discover/supported-devices) or configure your [emulator](https://developers.google.com/ar/develop/java/emulator).
 
 A link to the presentation slides can be found [here](ADD LINK TO SLIDES).
 
