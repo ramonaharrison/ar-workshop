@@ -141,7 +141,7 @@ In the `<application>` section, add a Play Store filter for users on devices tha
 
 # Add the ARFragment
 
-In `content_main.xml`
+In `content_stickers.xml`
 
 ```xml
 <fragment
@@ -256,7 +256,7 @@ If it does, we'll place an **anchor** at the **pose of the intersection**.
 
 # Hit test
 
-In `MainActivity.kt`, set up the `ArFragment` with an `OnTapArPlaneListener`.
+In `StickersActivity.kt`, set up the `ArFragment` with an `OnTapArPlaneListener`.
 
 ```kotlin
     private lateinit var arFragment: ArFragment
@@ -290,7 +290,7 @@ We can use Sceneform's `ShapeFactory` API to create renderable shapes: cubes, cy
 
 # Shapes
 
-Create a new function in `MainActivity.kt`:
+Create a new function in `StickersActivity.kt`:
 
 ```kotlin
     private fun addSphere(color: Int, anchor: Anchor, radius: Float, centerX : Float, centerY: Float, centerZ : Float) {
@@ -320,7 +320,7 @@ We need a way to add our sphere to the **scene**. We'll do that by creating a `N
 
 # Nodes
 
-Create a new function in `MainActivity.kt`:
+Create a new function in `StickersActivity.kt`:
 
 ```kotlin
     private fun addNodeToScene(anchor: Anchor, renderable: Renderable) {

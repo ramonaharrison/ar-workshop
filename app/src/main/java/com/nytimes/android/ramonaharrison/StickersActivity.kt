@@ -22,11 +22,11 @@ import com.google.ar.sceneform.rendering.ShapeFactory
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 import com.nytimes.android.ramonaharrison.helpers.CameraHelper
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
 
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_stickers.*
 
-class MainActivity : AppCompatActivity() {
+class StickersActivity : AppCompatActivity() {
 
     private val galleryAdapter = GalleryAdapter()
     private lateinit var galleryRecyclerview: RecyclerView
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_stickers)
         setSupportActionBar(toolbar)
 
         galleryRecyclerview = findViewById<RecyclerView>(R.id.gallery_recyclerview).apply {
