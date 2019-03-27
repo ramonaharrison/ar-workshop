@@ -60,7 +60,7 @@ In `content_main.xml`
 
 ```xml
 <fragment
-   android:id="@+id/arFragment"
+   android:id="@+id/fragment"
    android:name="com.google.ar.sceneform.ux.ArFragment"
    android:layout_width="match_parent"
    android:layout_height="match_parent" />
@@ -155,50 +155,6 @@ The Sceneform fragment renders a plane-grid to indicate via the UI where these p
 
 ___
 
-# Detecting taps
-
-In `MainActivity.kt`, set up the `TapHelper.kt` gesture detector.
-
-```kotlin
-    private lateinit var arSceneView
-    private val tapHelper = TapHelper(this)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        //...
-        
-        arSceneView = (arFragment as ArFragment).arSceneView
-        arSceneView.setOnTouchListener(tapHelper)
-    }
-```
----
-
-# Update loop
-
-
-
----
-
-# Update loop
-
-```kotlin
-    private lateinit var arSceneView
-    private val tapHelper = TapHelper(this)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        //...
-        
-        arSceneView = (arFragment as ArFragment).arSceneView
-        arSceneView.setOnTouchListener(tapHelper)
-        
-        arSceneView.scene.addOnUpdateListener { frameTime ->
-            // Handle one tap per frame.
-            val motionEvent = tapHelper.poll()
-        }
-    }
-```
-
----
-
 # Hit test
 
 We want to determine if a **ray** extending from the **x, y** coordinate of our tap intersects a plane. 
@@ -209,30 +165,100 @@ If it does, we'll place an **anchor** at the **pose of the intersection**.
 
 # Hit test
 
-In `MainActivity.kt`
+In `MainActivity.kt`, set up the `ArFragment` with an `OnTapArPlaneListener`.
 
 ```kotlin
-    private fun hitTest(x : Float, y : Float) : Boolean {
-        val frame = arSceneView.arFrame
-        val hits: List<HitResult>
-        if (frame != null) {
-            hits = frame.hitTest(x, y)
-            for (hit in hits) {
-                val trackable = hit.trackable
-                if (trackable is Plane && trackable.isPoseInPolygon(hit.hitPose)) {
-                    return true
-                }
-            }
+    private lateinit var arFragment: ArFragment
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        //...
+        arFragment = fragment as ArFragment
+        arFragment.setOnTapArPlaneListener { hitResult, plane, motionEvent ->
+            // We've hit a plane!
         }
-        return false
     }
 ```
+---
+
+# Hit Result
+
+Represents _an intersection between a **ray** and estimated real-world **geometry**_ (e.g. a `Node` or a `Plane`).
+
+We can use a `HitResult` to determine the `Pose` of the intersection, the distance from the camera,
+or to create a new `Anchor` at the pose of intersection.
 
 ---
 
+# Shapes
+
+Let's start out by adding a sphere at that pose.
+
+We can use Sceneform's `ShapeFactory` API to create renderable shapes: cubes, cylinders, and spheres to which we can apply materials such as surface colors or textures.
+
+--- 
+
+# Shapes
+
+Create a new function in `MainActivity.kt`:
+
+```kotlin
+    private fun addSphere(color: Int, anchor: Anchor, radius: Float, centerX : Float, centerY: Float, centerZ : Float) {
+        MaterialFactory.makeOpaqueWithColor(this, com.google.ar.sceneform.rendering.Color(color))
+            .thenAccept { material ->
+                val shape = ShapeFactory.makeSphere(radius, Vector3(centerX, centerY, centerZ), material)
+                addNodeToScene(anchor, shape)
+            }
+    }
+```
+
+--- 
+
+# Nodes
+
+All of the virtual content in a AR experience is organized as a **scene graph**.
+
+A **scene graph** is basically an n-tree, made up of **nodes** which can each have 0...n children.
+
+--- 
+
+# Nodes
+
+We need a way to add our sphere to the **scene**. We'll do that by creating a `Node`, attached to an `Anchor` at the point of intersection.
+
+---
+
+# Nodes
+
+Create a new function in `MainActivity.kt`:
+
+```kotlin
+    private fun addNodeToScene(anchor: Anchor, renderable: Renderable) {
+        val anchorNode = AnchorNode(anchor)
+        val node = TransformableNode(arFragment.transformationSystem)
+        node.renderable = renderable
+        node.setParent(anchorNode)
+        arFragment.arSceneView.scene.addChild(anchorNode)
+    }
+```
+
+--- 
+
 # Anchors
 
+Now we want to create an **anchor** based on the **hit result**, so that we can anchor our node to the pose on the plane we tap.
 
+--- 
+
+# Anchors
+
+Create an anchor based on the `HitResult`, and use it to add a sphere to the scene.
+
+```kotlin
+    arFragment.setOnTapArPlaneListener { hitResult, plane, motionEvent ->
+        val anchor = hitResult.createAnchor()
+        addSphere(Color.RED, anchor, 0.1f, 0.0f, 0.15f, 0.0f)
+    }
+```
 
 --- 
 
@@ -300,11 +326,25 @@ ___
 
 ---
 
-# Nodes
+# Run it!
 
 ---
 
-# Scene graph
+# Snap a photo
+
+We can take a photo of our AR scene, including the virtual content, by capturing the `SurfaceView` (the class that `ArSceneView` descends from).
+
+---
+
+# Snap a photo
+
+The app already includes a `CameraHelper.kt` class. Let's wire it up so that when the button is clicked, we take a photo.
+
+```kotlin
+    fab.setOnClickListener { view ->
+        camera.snap()
+    }
+```
 
 ---
 
