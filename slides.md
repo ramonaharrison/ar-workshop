@@ -499,11 +499,53 @@ The app already includes a `CameraHelper.kt` class. Let's wire it up so that whe
 
 ---
 
-# Cloud anchors
+# Augmented Faces
 
 ---
 
 # Augmented Faces
+
+Let's extend our stickers app to experiment with Sceneform's `AugmentedFaces` API.
+
+---
+
+# Augmented Faces
+
+Augmented Faces allows you to identify different regions of a detected face, and use those regions to anchor nodes and renderables so that they align, contour and move with the face.
+
+---
+
+# Augmented Faces
+
+ARCore provides detected regions and an augmented face mesh. This mesh is a virtual representation of the face, and consists of the vertices, facial regions, and the center of the user's head.
+
+---
+
+# Augmented Faces
+
+When a user's face is detected by the camera, ARCore performs these steps to generate the augmented face mesh, as well as center and region poses:
+
+It identifies the center pose and a face mesh.
+The center pose is the physical center point of the user's head (in other words, inside the skull). This is behind the nose.
+The face mesh consists of hundreds of vertices that make up the face, and is defined relative to the center pose.
+
+---
+
+# Augmented Faces
+
+The AugmentedFace class uses the face mesh and center pose to identify face region poses on the user's face. These regions are:
+Left forehead (LEFT_FOREHEAD)
+Right forehead (RIGHT_FOREHEAD)
+Tip of the nose (NOSE_TIP)
+These elements -- the center pose, face mesh, and face region poses -- comprise the augmented face mesh and are used by AugmentedFace APIs as positioning points and regions to place the assets in your app.
+
+---
+
+# Run it!
+
+---
+
+# Cloud anchors
 
 ___
 
