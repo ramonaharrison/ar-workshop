@@ -23,7 +23,7 @@
 
 ---
 
-# Drawing a Cube Before Sceneform
+# Drawing a cube Before Sceneform
 
 ```java
 public class Cube {
@@ -94,7 +94,7 @@ public class Cube {
 
 ---
 
-# Drawing a Cube with Sceneform
+# Drawing a cube with Sceneform
 
 ```kotlin
 val size = Vector3(1.0f, 1.0f, 1.0f)
@@ -415,13 +415,39 @@ Take a few minutes to import the three remaining models: `pasta.obj`, `pizza.obj
 
 ---
 
-# Loading assets
+# Renderables
 
-
+A *renderable* is an object that can be attached to a *node* to render in 3D space.
 
 ---
 
-# Renderables
+# Loading renderables from model assets
+
+Make a new function in `MainActivity.kt` to load the renderable from it's URI and attach it at the anchor.
+
+```kotlin
+    private fun placeObject(anchor: Anchor, model: Uri) {
+        ModelRenderable.builder()
+            .setSource(fragment.context, model)
+            .build()
+            .thenAccept { renderable -> addNodeToScene(anchor, renderable) }
+            .exceptionally { throwable -> null }
+    }
+```
+
+---
+
+# Update the tap listener
+
+Get the URI from the selected gallery item and pass it, along with the anchor, to `placeObject`.
+
+```kotlin
+    arFragment.setOnTapArPlaneListener { hitResult, plane, motionEvent ->
+        val anchor = hitResult.createAnchor()
+        val uri = galleryAdapter.getSelected().getUri()
+        placeObject(anchor, uri)
+    }
+```
 
 ---
 
@@ -430,6 +456,8 @@ Take a few minutes to import the three remaining models: `pasta.obj`, `pizza.obj
 ---
 
 # Adjusting Scale
+
+
 
 ---
 
