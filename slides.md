@@ -475,8 +475,17 @@ We can take a photo of our AR scene, including the virtual content, by capturing
 The app already includes a `CameraHelper.kt` class. Let's wire it up so that when the button is clicked, we take a photo.
 
 ```kotlin
-    fab.setOnClickListener { view ->
-        camera.snap()
+    private lateinit var camera: CameraHelper
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        // ...
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
+        }
+        
+        camera = CameraHelper(this, arFragment.arSceneView)
+        fab.setOnClickListener { camera.snap() }
     }
 ```
 

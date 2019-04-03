@@ -7,10 +7,10 @@ import android.os.Environment
 import android.os.Handler
 import android.os.HandlerThread
 import android.view.PixelCopy
-import android.view.SurfaceView
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.google.android.material.snackbar.Snackbar
+import com.google.ar.sceneform.ArSceneView
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -18,15 +18,11 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CameraHelper(private val activity: Activity, private val fragment: CapturableView) {
 
-    interface CapturableView {
-        fun getViewToCapture(): SurfaceView
-    }
+class CameraHelper(private val activity: Activity, private val view: ArSceneView) {
 
     fun snap() {
         val filename = generateFilename()
-        val view = fragment.getViewToCapture()
 
         // Create a bitmap the size of the scene view.
         val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
