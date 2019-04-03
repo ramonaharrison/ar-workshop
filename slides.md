@@ -237,6 +237,8 @@ A **plane** is composed of:
 
 The Sceneform fragment renders a plane-grid to indicate via the UI where these planes exist.
 
+![right 30%](images/plane-grid.png) 
+
 ---
 
 # Goal: 
@@ -401,11 +403,17 @@ We've now converted into Sceneform's `.sfa` and `.sfb` formats.
 - `.sfb` - Sceneform Binary, points to the models, material definitions, and textures in the source asset.
 - `.sfa` - Sceneform Asset Definition, a human-readable description of the `.sfb`
 
+___
+
+# Import the rest of the models
+
+Take a few minutes to import the three remaining models: `pasta.obj`, `pizza.obj`, and `tiramisu.obj`
+
 ---
 
 # Sceneform assets: editing
 
-___
+---
 
 # Loading assets
 
