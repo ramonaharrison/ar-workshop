@@ -1,7 +1,6 @@
-# ARCore & Sceneform Workshop
+# Welcome to the ARCore & Sceneform Workshop
 
-- Welcome! Before we get started...
-
+- Before we get started...
 - Clone the project @ bit.ly/2HWr1D8
 - These slides are linked from the README
 - Make sure your Android Studio is updated to 3.1 or higher
@@ -165,6 +164,16 @@ In `content_main.xml`
 
 ---
 
+# AR Fundamentals
+
+---
+
+# Feature points
+
+**feature points** are visually distinct features that ARCore detects in each captured camera image (e.g. the corner of a table, a mark on a wall)
+
+---
+
 # Motion Tracking
 
 ARCore detects visually distinct **feature points** in each captured camera image and uses these points to compute a device's change in location over time.
@@ -205,12 +214,6 @@ Sceneform aligns the pose of the **virtual camera** that renders your 3D content
 # Pose
 
 Because the rendered virtual content is overlaid and aligned on top of the camera image, it appears as if your virtual content is part of the real world.
-
----
-
-# Feature points
-
-**feature points** are visually distinct features that ARCore detects in each captured camera image (e.g. the corner of a table, a mark on a wall)
 
 ---
 
