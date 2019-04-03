@@ -8,6 +8,10 @@ Before we get started, take a few minutes to:
 
 A link to the presentation slides can be found [here](slides.pdf).
 
+This sample project and slides are in Kotlin. If you'd prefer to follow along using Java, you can find completed Java versions of the snippets we're adding in this project [here](https://github.com/google-ar/sceneform-android-sdk/tree/master/samples/hellosceneform) and [here](https://github.com/google-ar/sceneform-android-sdk/tree/master/samples/augmentedfaces).
+
+This workshop is based on Google's [Sceneform codelab](https://codelabs.developers.google.com/codelabs/sceneform-intro/) and [Augmented Faces sample app](https://github.com/google-ar/sceneform-android-sdk/tree/master/samples/augmentedfaces). Check out their [sample apps](https://github.com/google-ar/sceneform-android-sdk) for more ideas on what you can do with ARCore + Sceneform.
+
 ## Emulator troubleshooting
 
 - Check that your Android Emulator is updated to 27.2.9 or later.
