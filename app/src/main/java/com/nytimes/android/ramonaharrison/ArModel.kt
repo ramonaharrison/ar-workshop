@@ -15,12 +15,11 @@ enum class ArModel {
 
     @DrawableRes
     fun getDrawable(): Int {
-        // TODO: Update when we actually have drawables for our objects.
         return when (this) {
-            COFFEE -> R.drawable.ic_launcher_foreground
-            PASTA -> R.drawable.ic_launcher_foreground
-            PIZZA -> R.drawable.ic_launcher_foreground
-            TIRAMISU -> R.drawable.ic_launcher_foreground
+            COFFEE -> R.drawable.thumb_coffee
+            PASTA -> R.drawable.thumb_pasta
+            PIZZA -> R.drawable.thumb_pizza
+            TIRAMISU -> R.drawable.thumb_tiramisu
         }
     }
 }

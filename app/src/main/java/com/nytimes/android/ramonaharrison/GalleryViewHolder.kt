@@ -5,10 +5,10 @@ import android.graphics.Rect
 import android.graphics.drawable.InsetDrawable
 import android.view.View
 import android.widget.ImageView
-import androidx.annotation.DrawableRes
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.doOnPreDraw
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 
 class GalleryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -21,7 +21,7 @@ class GalleryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(model: ArModel) {
         this.model = model
-        imageView.setImageResource(model.getDrawable())
+        Picasso.get().load(model.getDrawable()).resize(dpToPixels(100f), dpToPixels(100f)).into(imageView)
         imageView.contentDescription = model.name.toLowerCase()
     }
 
