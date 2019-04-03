@@ -411,11 +411,13 @@ Take a few minutes to import the three remaining models: `pasta.obj`, `pizza.obj
 
 ---
 
-# Sceneform assets: editing
+# Goal: When a user taps, we want to place the selected object from the gallery at that point.
 
 ---
 
 # Loading assets
+
+
 
 ---
 
@@ -424,6 +426,10 @@ Take a few minutes to import the three remaining models: `pasta.obj`, `pizza.obj
 ---
 
 # Run it!
+
+---
+
+# Adjusting Scale
 
 ---
 
