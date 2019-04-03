@@ -1,6 +1,7 @@
 package com.nytimes.android.ramonaharrison
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
@@ -98,7 +99,10 @@ class StickersActivity : AppCompatActivity() {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_faces -> {
+                startActivity(Intent(this, FacesActivity::class.java))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

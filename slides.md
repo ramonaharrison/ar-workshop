@@ -458,9 +458,33 @@ Get the URI from the selected gallery item and pass it, along with the anchor, t
 
 ---
 
+# Google Poly
+
+Thousands of open source 3D models can be found at [poly.google.com](https://poly.google.com/)
+
+---
+
 # Adjusting Scale
 
+In `coffee.sfa`
 
+```json
+model: {
+    attributes: [
+      'Position',
+      'Orientation',
+    ],
+    collision: {},
+    file: 'sampledata/models/coffee.obj',
+    name: 'coffee',
+    recenter: 'root',
+    scale: 0.50,
+  },
+```
+
+---
+
+# Run it!
 
 ---
 
@@ -511,7 +535,7 @@ Let's extend our stickers app to experiment with Sceneform's `AugmentedFaces` AP
 
 # Augmented Faces
 
-Augmented Faces allows you to identify different regions of a detected face, and use those regions to anchor nodes and renderables so that they align, contour and move with the face.
+Augmented Faces helps you to identify different regions of a detected face, and use those regions to anchor nodes and renderables so that they align, contour and move with the face.
 
 ---
 
@@ -523,21 +547,168 @@ ARCore provides detected regions and an augmented face mesh. This mesh is a virt
 
 # Augmented Faces
 
-When a user's face is detected by the camera, ARCore performs these steps to generate the augmented face mesh, as well as center and region poses:
+When a user's face is detected by the camera, ARCore detects:
 
-It identifies the center pose and a face mesh.
-The center pose is the physical center point of the user's head (in other words, inside the skull). This is behind the nose.
-The face mesh consists of hundreds of vertices that make up the face, and is defined relative to the center pose.
+- The **center pose**: the physical center point of the user's head, inside the skull directly behind the nose.
+- The **face mesh**: the hundreds of vertices that make up the face,  defined relative to the center pose.
+- The **face regions**: three distinct poses on the user's face (left forehead, right forehead, nose tip)
 
 ---
 
 # Augmented Faces
 
-The AugmentedFace class uses the face mesh and center pose to identify face region poses on the user's face. These regions are:
-Left forehead (LEFT_FOREHEAD)
-Right forehead (RIGHT_FOREHEAD)
-Tip of the nose (NOSE_TIP)
-These elements -- the center pose, face mesh, and face region poses -- comprise the augmented face mesh and are used by AugmentedFace APIs as positioning points and regions to place the assets in your app.
+These elements are used by AugmentedFace APIs as feature points to align 3D assets to the face.
+
+---
+
+# Extend the ArFragment
+
+Create a new class, `FaceArFragment.kt`. Override `getSessionConfiguration` to enable augmented face mode.
+
+```kotlin
+class FaceArFragment : ArFragment() {
+
+    override fun getSessionConfiguration(session: Session): Config {
+        val config = Config(session)
+        config.augmentedFaceMode = Config.AugmentedFaceMode.MESH3D
+        return config
+    }
+    
+}
+```
+
+---
+
+# Extend the ArFragment
+
+Configure the session to use the front-facing camera. Turn off the plane discovery controller, since plane detection doesn't work with the front-facing camera.
+
+In `FaceArFragment`:
+
+```kotlin
+    override fun getSessionFeatures() = EnumSet.of<Session.Feature>(Session.Feature.FRONT_CAMERA)
+
+    override fun onCreateView(inflater: LayoutInflater, 
+                              @Nullable container: ViewGroup?, 
+                              @Nullable savedInstanceState: Bundle?): View? {
+        val frameLayout = super.onCreateView(inflater, container, savedInstanceState) as FrameLayout?
+
+        planeDiscoveryController.hide()
+        planeDiscoveryController.setInstructionView(null)
+
+        return frameLayout
+    }
+```
+
+---
+
+# Add the fragment to the layout
+
+In `content_faces.xml`
+
+```xml
+    <fragment
+            android:id="@+id/fragment"
+            android:name="com.nytimes.android.ramonaharrison.FaceArFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+```
+
+---
+
+# Setup the scene
+
+In `FacesActivity.kt`, set up the fragment and set up the camera stream to render first so that the face mesh occlusion works properly.
+
+```kotlin
+    private lateinit var arFragment: ArFragment
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        // ...
+        
+        arFragment = fragment as ArFragment
+        val sceneView = arFragment.arSceneView
+        sceneView.cameraStreamRenderPriority = Renderable.RENDER_PRIORITY_FIRST
+    }
+
+```
+
+---
+
+# Update loop
+
+Add an `OnUpdateListener` to the scene. This listener has a callback that will be invoked on every frame, right before the scene gets updated.
+
+Assuming our renderable and texture are loaded and ready, this is where we'll attach new nodes to faces that have become visible in the frame, and remove nodes from faces that aren't in the frame anymore.
+
+```kotlin
+    val scene = sceneView.scene
+    scene.addOnUpdateListener { frameTime: FrameTime ->
+        if (faceRegionsRenderable != null && faceMeshTexture != null) {
+            // Attach nodes for tracked faces and remove untracked faces
+        }
+    }
+```
+
+---
+
+# Handle tracked faces
+
+Create a function `handleTrackedFaces`. In this function, we'll get a list of faces from the session and iterate through them to attach an `AugmentedFaceNode`  with our renderable and texture.
+
+```kotlin
+
+    private fun handleTrackedFaces(sceneView: ArSceneView, scene: Scene) {
+        val faceList = sceneView.session?.getAllTrackables(AugmentedFace::class.java) ?: emptyList()
+        for (face in faceList) {
+            if (!faceNodeMap.containsKey(face)) {
+                val faceNode = AugmentedFaceNode(face)
+                faceNode.setParent(scene)
+                faceNode.faceRegionsRenderable = faceRegionsRenderable
+                faceNode.faceMeshTexture = faceMeshTexture
+                faceNodeMap[face] = faceNode
+            }
+        }
+    }
+
+```
+
+---
+
+# Handle untracked faces
+
+We also want to remove any nodes associated with faces that we're no longer tracking -- these are faces that have disappeared from the current frame.
+
+```kotlin
+    private fun handleUntrackedFaces() {
+        val iterator = faceNodeMap.entries.iterator()
+        while (iterator.hasNext()) {
+            val entry = iterator.next()
+            val face = entry.key
+            if (face.trackingState == TrackingState.STOPPED) {
+                val faceNode = entry.value
+                faceNode.setParent(null)
+                iterator.remove()
+            }
+        }
+    }
+```
+
+---
+
+# Update the update loop
+
+Invoke these two new functions from the update loop.
+
+```kotlin
+    val scene = sceneView.scene
+    scene.addOnUpdateListener { frameTime: FrameTime ->
+        if (faceRegionsRenderable != null && faceMeshTexture != null) {
+            handleTrackedFaces(sceneView, scene)
+            handleUntrackedFaces()
+        }
+    }
+```
 
 ---
 
