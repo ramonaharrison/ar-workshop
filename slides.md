@@ -616,6 +616,67 @@ In `content_faces.xml`
 
 ---
 
+# Import the face model
+
+From the `sampledata` directory, import `fox_face.fbx` as a Sceneform asset.
+
+---
+
+# Load the face model as a renderable
+
+In `FacesActivity.kt`, create a function to load the imported asset as a renderable.
+
+```kotlin
+class FacesActivity : AppCompatActivity() {
+
+    var faceRegionsRenderable: ModelRenderable? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        // ...
+        
+        loadFaceRenderable()
+    }
+
+    private fun loadFaceRenderable() {
+        ModelRenderable.builder()
+            .setSource(this, R.raw.fox_face)
+            .build()
+            .thenAccept { modelRenderable: ModelRenderable ->
+                modelRenderable.isShadowCaster = false
+                modelRenderable.isShadowReceiver = false
+                faceRegionsRenderable = modelRenderable
+            }
+    }
+}
+```
+
+---
+
+# Load the face texture
+
+The project also include a texture that we'll superimpose over the entire face. Create another method in `FaceActivity` to load this texture.
+
+```kotlin
+    var faceMeshTexture: Texture? = null
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        // ..
+        loadFaceRenderable()
+        loadFaceTexture()
+    }
+    
+    private fun loadFaceTexture() {
+        Texture.builder()
+            .setSource(this, R.drawable.fox_face_mesh_texture)
+            .build()
+            .thenAccept({ texture: Texture ->
+                faceMeshTexture = texture
+            })
+    }
+```
+
+---
+
 # Setup the scene
 
 In `FacesActivity.kt`, set up the fragment and set up the camera stream to render first so that the face mesh occlusion works properly.
@@ -648,6 +709,21 @@ Assuming our renderable and texture are loaded and ready, this is where we'll at
             // Attach nodes for tracked faces and remove untracked faces
         }
     }
+```
+
+---
+
+# Handle tracked faces
+
+In `FacesActivity`, create a `faceNodeMap` member variable. We'll use this map to keep track of the actively tracked faces that are detected by ARCore, and of the nodes that we associate with these faces.
+
+```kotlin
+class FacesActivity : AppCompatActivity() {
+
+    val faceNodeMap = HashMap<AugmentedFace, AugmentedFaceNode>()
+    
+    // ...
+}
 ```
 
 ---
