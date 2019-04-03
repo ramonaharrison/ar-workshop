@@ -116,7 +116,7 @@ In `app/build.gradle`
 dependencies {
 	// ...
 
-	implementation "com.google.ar.sceneform.ux:sceneform-ux:1.4.0"
+	implementation "com.google.ar.sceneform.ux:sceneform-ux:1.8.0"
 }
 ```
 
@@ -431,7 +431,10 @@ Make a new function in `MainActivity.kt` to load the renderable from it's URI an
             .setSource(fragment.context, model)
             .build()
             .thenAccept { renderable -> addNodeToScene(anchor, renderable) }
-            .exceptionally { throwable -> null }
+            .exceptionally { throwable ->
+                Toast.makeText(this@MainActivity, "Something went wrong!", Toast.LENGTH_SHORT).show()
+                null
+            }
     }
 ```
 
