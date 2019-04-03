@@ -22,9 +22,8 @@ import com.google.ar.sceneform.rendering.ShapeFactory
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 import com.nytimes.android.ramonaharrison.helpers.CameraHelper
-
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_stickers.*
+import kotlinx.android.synthetic.main.content_stickers.*
 
 class StickersActivity : AppCompatActivity() {
 
@@ -83,7 +82,7 @@ class StickersActivity : AppCompatActivity() {
             .thenAccept { renderable -> addNodeToScene(anchor, renderable) }
             .exceptionally { throwable ->
                 Log.e("MainActivity", throwable.message)
-                Toast.makeText(this@MainActivity, "Something went wrong!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@StickersActivity, "Something went wrong!", Toast.LENGTH_SHORT).show()
                 null
             }
     }
