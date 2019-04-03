@@ -3,7 +3,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.google.ar.sceneform.plugin'
 
 android {
     compileSdkVersion 28
@@ -39,34 +38,4 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
-    implementation "com.google.ar.sceneform.ux:sceneform-ux:1.8.0"
 }
-
-
-sceneform.asset('sampledata/models/coffee.obj',
-        'default',
-        'sampledata/models/coffee.sfa',
-        'src/main/assets/coffee')
-
-
-sceneform.asset('sampledata/models/pasta.obj',
-        'default',
-        'sampledata/models/pasta.sfa',
-        'src/main/assets/pasta')
-
-
-sceneform.asset('sampledata/models/pizza.obj',
-        'default',
-        'sampledata/models/pizza.sfa',
-        'src/main/assets/pizza')
-
-
-sceneform.asset('sampledata/models/tiramisu.obj',
-        'default',
-        'sampledata/models/tiramisu.sfa',
-        'src/main/assets/tiramisu')
-
-sceneform.asset('sampledata/models/fox_face.fbx',
-        'sampledata/models/fox_face_material.mat',
-        'sampledata/models/fox_face.sfa',
-        'src/main/res/raw/fox_face')

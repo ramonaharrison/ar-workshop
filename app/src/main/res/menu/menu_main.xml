@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
       xmlns:app="http://schemas.android.com/apk/res-auto"
       xmlns:tools="http://schemas.android.com/tools"
-      tools:context="com.nytimes.android.ramonaharrison.StickersActivity">
+      tools:context="com.nytimes.android.ramonaharrison.MainActivity">
     <item android:id="@+id/action_faces"
           android:title="Augmented Faces"
           android:orderInCategory="100"

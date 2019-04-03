@@ -4,8 +4,6 @@
           package="com.nytimes.android.ramonaharrison">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera.ar" android:required="true" />
 
     <application
             android:allowBackup="true"
@@ -21,8 +19,6 @@
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
-        <meta-data android:name="com.google.ar.core" android:value="required" />
-
         <provider
                 android:name="androidx.core.content.FileProvider"
                 android:authorities="${applicationId}.ar.codelab.name.provider"
@@ -34,7 +30,7 @@
         </provider>
 
         <activity
-                android:name=".StickersActivity"
+                android:name=".MainActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>

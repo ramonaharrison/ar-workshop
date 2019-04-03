@@ -10,10 +10,5 @@
         tools:context=".FacesActivity">
 
     <!-- Add your FacesArFragment here -->
-    <fragment
-            android:id="@+id/fragment"
-            android:name="com.nytimes.android.ramonaharrison.FaceArFragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

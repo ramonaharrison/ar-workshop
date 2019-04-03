@@ -7,10 +7,10 @@ import android.os.Environment
 import android.os.Handler
 import android.os.HandlerThread
 import android.view.PixelCopy
+import android.view.SurfaceView
 import android.widget.Toast
 import androidx.core.content.FileProvider
 import com.google.android.material.snackbar.Snackbar
-import com.google.ar.sceneform.ArSceneView
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class CameraHelper(private val activity: Activity, private val view: ArSceneView) {
+class CameraHelper(private val activity: Activity, private val view: SurfaceView) {
 
     fun snap() {
         val filename = generateFilename()
