@@ -210,6 +210,8 @@ In `content_main.xml`
 
 **feature points** are visually distinct features that ARCore detects in each captured camera image (e.g. the corner of a table, a mark on a wall)
 
+![right](images/feature-points.gif) 
+
 ---
 
 # Motion Tracking
@@ -235,6 +237,8 @@ This combined data is used to estimate the **pose**, defined by **position** and
 - World space is the 3D coordinate space in which the camera and other objects are positioned.
 - Three fixed axes: x, y, z.
 - The positions of the camera and other objects are updated from frame to frame as they move within the space.
+
+![right 90%](images/3dworld.png) 
 
 ---
 
@@ -266,6 +270,8 @@ Because the rendered virtual content is overlaid and aligned on top of the camer
 # Plane detection
 
 ARCore looks for clusters of feature points that appear to lie on common horizontal or vertical surfaces and provides this data to Sceneform as **planes**. 
+
+![right](images/plane-finding.gif) 
 
 ---
 
