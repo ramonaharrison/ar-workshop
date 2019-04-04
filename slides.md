@@ -1,7 +1,7 @@
 # Welcome to the ARCore & Sceneform Workshop
 
 - Before we get started...
-- Clone the project @ bit.ly/2HWr1D8
+- Clone **github.com/ramonaharrison/ar-workshop**
 - Make sure Android Studio is updated to 3.1 or higher
 - Set up an ARCore [supported device](https://developers.google.com/ar/discover/supported-devices)
 - Or an ARCore [supported emulator](https://developers.google.com/ar/develop/java/emulator)
