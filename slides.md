@@ -43,7 +43,13 @@
 
 ---
 
-# Drawing a 3D cube Before Sceneform
+# Drawing a 3D cube before Sceneform
+
+![inline](images/cube.gif)
+
+---
+
+# Drawing a 3D cube before Sceneform
 
 ```java
 public class Cube {
@@ -215,7 +221,7 @@ In `content_main.xml`
 
 # Feature points
 
-**feature points** are visually distinct features that ARCore detects in each captured camera image (e.g. the corner of a table, a mark on a wall)
+**feature points** are visually distinct features that ARCore detects in each captured camera image.
 
 ![right](images/feature-points.gif) 
 
@@ -223,7 +229,8 @@ In `content_main.xml`
 
 # Motion Tracking
 
-ARCore detects visually distinct **feature points** in each captured camera image and uses these points to compute a device's change in location over time.
+- ARCore detects visually distinct **feature points** in each captured camera image.
+- It uses these points to compute a device's change in location over time.
 
 ---
 
@@ -315,7 +322,7 @@ If it does, we'll place an **anchor** at the **pose of the intersection**.
 
 # Hit test
 
-In `MainActivity.kt`, set up the `ArFragment` with an `OnTapArPlaneListener`.
+In `MainActivity`, set up the `ArFragment` with an `OnTapArPlaneListener`.
 
 ```kotlin
     private lateinit var arFragment: ArFragment
@@ -341,15 +348,13 @@ or to create a new `Anchor` at the pose of intersection.
 
 # Shapes
 
-Let's start out by adding a sphere at that pose.
-
-We can use Sceneform's `ShapeFactory` API to create renderable shapes: cubes, cylinders, and spheres to which we can apply materials such as surface colors or textures.
+Let's use Sceneform's `ShapeFactory` API to create a sphere.
 
 --- 
 
 # Shapes
 
-Create a new function in `MainActivity.kt`:
+Create a new function in `MainActivity`:
 
 ```kotlin
     private fun addSphere(color: Int, anchor: Anchor, radius: Float, centerX : Float, centerY: Float, centerZ : Float) {
@@ -379,7 +384,7 @@ We need a way to add our sphere to the **scene**. We'll do that by creating a `N
 
 # Nodes
 
-Create a new function in `MainActivity.kt`:
+Create a new function in `MainActivity`:
 
 ```kotlin
     private fun addNodeToScene(anchor: Anchor, renderable: Renderable) {
@@ -482,7 +487,7 @@ A *renderable* is an object that can be attached to a *node* to render in 3D spa
 
 # Loading renderables from model assets
 
-Make a new function in `MainActivity.kt` to load the renderable from it's URI and attach it at the anchor.
+Make a new function in `MainActivity` to load the renderable from it's URI and attach it at the anchor.
 
 ```kotlin
     private fun placeObject(anchor: Anchor, model: Uri) {
@@ -555,7 +560,7 @@ We can take a photo of our AR scene, including the virtual content, by capturing
 
 # Snap a photo
 
-The app already includes a `CameraHelper.kt` class. Let's wire it up so that when the button is clicked, we take a photo.
+The app already includes a `CameraHelper` class. Let's wire it up so that when the button is clicked, we take a photo.
 
 ```kotlin
     private lateinit var camera: CameraHelper
@@ -594,13 +599,8 @@ Let's extend our stickers app to experiment with Sceneform's `AugmentedFaces` AP
 
 # Augmented Faces
 
-Augmented Faces helps you to identify different regions of a detected face, and use those regions to anchor nodes and renderables so that they align, contour and move with the face.
-
----
-
-# Augmented Faces
-
-ARCore provides detected regions and an augmented face mesh. This mesh is a virtual representation of the face, and consists of the vertices, facial regions, and the center of the user's head.
+- The Augmented Faces API helps you to identify different regions of a detected face.
+- You can use those regions to anchor nodes and renderables so that they move with the face.
 
 ---
 
@@ -610,19 +610,19 @@ When a user's face is detected by the camera, ARCore detects:
 
 - The **center pose**: the physical center point of the user's head, inside the skull directly behind the nose.
 - The **face mesh**: the hundreds of vertices that make up the face,  defined relative to the center pose.
-- The **face regions**: three distinct poses on the user's face (left forehead, right forehead, nose tip)
+- The **face regions**: three distinct poses on the user's face (left forehead, right forehead, nose tip).
 
 ---
 
 # Augmented Faces
 
-These elements are used by AugmentedFace APIs as feature points to align 3D assets to the face.
+These elements are used by Augmented Faces APIs as regions to align 3D assets to the face.
 
 ---
 
 # Extend the ArFragment
 
-Create a new class, `FaceArFragment.kt`. Override `getSessionConfiguration` to enable augmented face mode.
+Create a new class, `FaceArFragment`. Override `getSessionConfiguration` to enable augmented face mode.
 
 ```kotlin
 class FaceArFragment : ArFragment() {
@@ -640,13 +640,24 @@ class FaceArFragment : ArFragment() {
 
 # Extend the ArFragment
 
-Configure the session to use the front-facing camera. Turn off the plane discovery controller, since plane detection doesn't work with the front-facing camera.
-
-In `FaceArFragment`:
+Configure the session to use the front-facing camera.
 
 ```kotlin
+class FaceArFragment : ArFragment() {
+    //..
+    
     override fun getSessionFeatures() = EnumSet.of<Session.Feature>(Session.Feature.FRONT_CAMERA)
+        
+}
+```
 
+---
+
+# Extend the ArFragment
+
+Turn off the plane discovery controller, since plane detection doesn't work with the front-facing camera.
+
+```kotlin
     override fun onCreateView(inflater: LayoutInflater, 
                               @Nullable container: ViewGroup?, 
                               @Nullable savedInstanceState: Bundle?): View? {
@@ -683,19 +694,9 @@ From the `sampledata` directory, import `fox_face.fbx` as a Sceneform asset.
 
 # Load the face model as a renderable
 
-In `FacesActivity.kt`, create a function to load the imported asset as a renderable.
+In `FacesActivity`, create a function to load the imported asset as a renderable.
 
 ```kotlin
-class FacesActivity : AppCompatActivity() {
-
-    var faceRegionsRenderable: ModelRenderable? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        // ...
-        
-        loadFaceRenderable()
-    }
-
     private fun loadFaceRenderable() {
         ModelRenderable.builder()
             .setSource(this, R.raw.fox_face)
@@ -706,24 +707,15 @@ class FacesActivity : AppCompatActivity() {
                 faceRegionsRenderable = modelRenderable
             }
     }
-}
 ```
 
 ---
 
 # Load the face texture
 
-The project also include a texture that we'll superimpose over the entire face. Create another method in `FaceActivity` to load this texture.
+The project also include a texture that we'll superimpose over the entire face.
 
 ```kotlin
-    var faceMeshTexture: Texture? = null
-    
-    override fun onCreate(savedInstanceState: Bundle?) {
-        // ..
-        loadFaceRenderable()
-        loadFaceTexture()
-    }
-    
     private fun loadFaceTexture() {
         Texture.builder()
             .setSource(this, R.drawable.fox_face_mesh_texture)
@@ -738,7 +730,7 @@ The project also include a texture that we'll superimpose over the entire face. 
 
 # Setup the scene
 
-In `FacesActivity.kt`, set up the fragment and set up the camera stream to render first so that the face mesh occlusion works properly.
+In `FacesActivity`, set up the fragment.
 
 ```kotlin
     private lateinit var arFragment: ArFragment
@@ -757,9 +749,7 @@ In `FacesActivity.kt`, set up the fragment and set up the camera stream to rende
 
 # Update loop
 
-Add an `OnUpdateListener` to the scene. This listener has a callback that will be invoked on every frame, right before the scene gets updated.
-
-Assuming our renderable and texture are loaded and ready, this is where we'll attach new nodes to faces that have become visible in the frame, and remove nodes from faces that aren't in the frame anymore.
+Add an `OnUpdateListener` to the scene.
 
 ```kotlin
     val scene = sceneView.scene
@@ -774,7 +764,7 @@ Assuming our renderable and texture are loaded and ready, this is where we'll at
 
 # Handle tracked faces
 
-In `FacesActivity`, create a `faceNodeMap` member variable. We'll use this map to keep track of the actively tracked faces that are detected by ARCore, and of the nodes that we associate with these faces.
+In `FacesActivity`, create a `faceNodeMap` member variable.
 
 ```kotlin
 class FacesActivity : AppCompatActivity() {
@@ -789,10 +779,9 @@ class FacesActivity : AppCompatActivity() {
 
 # Handle tracked faces
 
-Create a function `handleTrackedFaces`. In this function, we'll get a list of faces from the session and iterate through them to attach an `AugmentedFaceNode`  with our renderable and texture.
+Create a function `handleTrackedFaces`.
 
 ```kotlin
-
     private fun handleTrackedFaces(sceneView: ArSceneView, scene: Scene) {
         val faceList = sceneView.session?.getAllTrackables(AugmentedFace::class.java) ?: emptyList()
         for (face in faceList) {
@@ -805,14 +794,13 @@ Create a function `handleTrackedFaces`. In this function, we'll get a list of fa
             }
         }
     }
-
 ```
 
 ---
 
 # Handle untracked faces
 
-We also want to remove any nodes associated with faces that we're no longer tracking -- these are faces that have disappeared from the current frame.
+We also want to remove faces that have disappeared from the current frame.
 
 ```kotlin
     private fun handleUntrackedFaces() {
