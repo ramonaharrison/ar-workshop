@@ -10,6 +10,13 @@
 
 # About this workshop
 
+- We are Ramona Harrison & David Morant
+- We work on Android @ The New York Times
+
+---
+
+# About this workshop
+
 - We're going to build an AR Stickers app using ARCore and Sceneform.
 - We'll cover AR fundamentals, drawing 3D shapes, importing and editing 3D models, user interactions, augmented faces, and cloud anchors.
 
