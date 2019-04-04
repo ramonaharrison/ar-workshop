@@ -2,10 +2,23 @@
 
 - Before we get started...
 - Clone the project @ bit.ly/2HWr1D8
-- These slides are linked from the README
-- Make sure your Android Studio is updated to 3.1 or higher
+- Make sure Android Studio is updated to 3.1 or higher
 - Set up an ARCore [supported device](https://developers.google.com/ar/discover/supported-devices)
 - Or an ARCore [supported emulator](https://developers.google.com/ar/develop/java/emulator)
+
+---
+
+# About this workshop
+
+- We're going to build an AR Stickers app using ARCore and Sceneform.
+- We'll cover AR fundamentals, drawing 3D shapes, importing and editing 3D models, user interactions, augmented faces, and cloud anchors.
+
+---
+
+# About this workshop
+
+- These slides are linked from the README (slides.pdf)
+- There's also a raw version where you can grab code snippets (slides.md)
 
 ---
 
@@ -23,7 +36,7 @@
 
 ---
 
-# Drawing a cube Before Sceneform
+# Drawing a 3D cube Before Sceneform
 
 ```java
 public class Cube {
@@ -94,7 +107,28 @@ public class Cube {
 
 ---
 
-# Drawing a cube with Sceneform
+# Drawing a 3D cube before Sceneform
+
+```java
+    public void draw(float[] mvpMatrix) {
+        GLES20.glUseProgram(mProgram);
+        GLES20.glEnableVertexAttribArray(mPositionHandle);
+        GLES20.glVertexAttribPointer(
+                mPositionHandle, 3, GLES20.GL_FLOAT, false, VERTEX_STRIDE, mVertexBuffer);
+        GLES20.glEnableVertexAttribArray(mColorHandle);
+        GLES20.glVertexAttribPointer(
+                mColorHandle, 4, GLES20.GL_FLOAT, false, COLOR_STRIDE, mColorBuffer);
+        GLES20.glUniformMatrix4fv(mMVPMatrixHandle, 1, false, mvpMatrix, 0);
+        GLES20.glDrawElements(
+                GLES20.GL_TRIANGLES, INDICES.length, GLES20.GL_UNSIGNED_BYTE, mIndexBuffer);
+        GLES20.glDisableVertexAttribArray(mPositionHandle);
+        GLES20.glDisableVertexAttribArray(mColorHandle);
+    }
+```
+
+---
+
+# Drawing a 3D cube with Sceneform
 
 ```kotlin
 val size = Vector3(1.0f, 1.0f, 1.0f)
@@ -104,6 +138,10 @@ MaterialFactory.makeOpaqueWithColor(this, Color(Color.RED))
     .thenAccept(material -> ShapeFactory.makeCube(size, position, material))
 
 ```
+
+---
+
+# Let's get started
 
 ---
 
@@ -192,9 +230,17 @@ This combined data is used to estimate the **pose**, defined by **position** and
 
 ---
 
+# World space
+
+- World space is the 3D coordinate space in which the camera and other objects are positioned.
+- Three fixed axes: x, y, z.
+- The positions of the camera and other objects are updated from frame to frame as they move within the space.
+
+---
+
 # Pose
 
-Everything in an AR scene has a **pose** within a 3D world coordinate space. 
+Everything in an AR scene has a **pose** within the world space. 
 
 Each **pose** is composed of:
 
@@ -388,7 +434,7 @@ In addition to Wavefront `obj`, Sceneform also supports importing:
 
 ---
 
-# Sceneform assets: importing
+# Sceneform assets
 
 1. Select `app/sampledata/models/coffee.obj` and then right mouse click to get the menu.
 2. Pick `New > Sceneform asset`.
@@ -396,7 +442,7 @@ In addition to Wavefront `obj`, Sceneform also supports importing:
 
 ---
 
-# Sceneform assets: editing
+# Sceneform assets
 
 We've now converted into Sceneform's `.sfa` and `.sfb` formats.
 
