@@ -861,6 +861,8 @@ Invoke these two new functions from the update loop.
 
 Cloud Anchors let you share ARCore (or ARKit!) anchors across multiple devices to create a shared AR experience.
 
+![inline](images/cloud.png)
+
 ---
 
 # Cloud anchors
