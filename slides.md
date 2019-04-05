@@ -15,6 +15,12 @@
 
 ---
 
+# AR @ NYT
+
+![inline](images/thai-cave.png)![inline](images/hudson-yards.png)![inline](images/hadron.png)
+
+---
+
 # About this workshop
 
 - We're going to build an AR Stickers app using ARCore and Sceneform.
