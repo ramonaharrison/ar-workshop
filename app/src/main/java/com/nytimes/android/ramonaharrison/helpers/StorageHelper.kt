@@ -21,7 +21,7 @@ class StorageHelper {
     }
 
     /** Stores the cloud anchor ID in the activity's SharedPrefernces.  */
-    fun storeUsingShortCode(activity: Activity, shortCode: Int, cloudAnchorId: String) {
+    fun storeUsingShortCode(activity: Activity, shortCode: Int, cloudAnchorId: String?) {
         val sharedPrefs = activity.getPreferences(Context.MODE_PRIVATE)
         sharedPrefs.edit().putString(KEY_PREFIX + shortCode, cloudAnchorId).apply()
     }

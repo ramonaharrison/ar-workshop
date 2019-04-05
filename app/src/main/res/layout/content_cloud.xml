@@ -10,6 +10,7 @@
         android:name="com.nytimes.android.ramonaharrison.CloudArFragment" />
 
     <LinearLayout
+        android:layout_marginTop="60dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

@@ -17,9 +17,8 @@ import com.google.ar.sceneform.ux.TransformableNode
 import com.nytimes.android.ramonaharrison.helpers.SnackbarHelper
 import kotlinx.android.synthetic.main.content_cloud.*
 import com.google.ar.sceneform.FrameTime
-
-
-
+import com.nytimes.android.ramonaharrison.helpers.StorageHelper
+import androidx.constraintlayout.solver.widgets.ResolutionNode.RESOLVED
 
 
 class CloudActivity : AppCompatActivity() {
@@ -27,7 +26,9 @@ class CloudActivity : AppCompatActivity() {
     private enum class AppAnchorState {
         NONE,
         HOSTING,
-        HOSTED
+        HOSTED,
+        RESOLVING,
+        RESOLVED
     }
 
     private var appAnchorState = AppAnchorState.NONE
@@ -35,6 +36,8 @@ class CloudActivity : AppCompatActivity() {
     private lateinit var arFragment: ArFragment
     private var cloudAnchor: Anchor? = null
     private val snackbarHelper = SnackbarHelper()
+
+    private val storageHelper = StorageHelper()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,31 +56,73 @@ class CloudActivity : AppCompatActivity() {
             }
 
             setCloudAnchor(hitResult.createAnchor())
-            val anchor = session?.hostCloudAnchor(cloudAnchor)
+            appAnchorState = AppAnchorState.HOSTING
+            cloudAnchor = arFragment.arSceneView.session?.hostCloudAnchor(cloudAnchor)
             val uri = ArModel.COFFEE.getUri()
 
-            appAnchorState = AppAnchorState.HOSTING
             snackbarHelper.showMessage(this, "Now hosting anchor...")
 
-            placeObject(anchor, uri)
+            placeObject(cloudAnchor, uri)
         }
 
         clear_button.setOnClickListener { setCloudAnchor(null) }
+
+
+        resolve_button.setOnClickListener {
+            if (cloudAnchor != null) {
+                snackbarHelper.showMessageWithDismiss(parent, "Please clear Anchor")
+                return@setOnClickListener
+            }
+            val dialog = ResolveDialogFragment()
+            dialog.setOkListener(object : ResolveDialogFragment.OkListener {
+                override fun onOkPressed(dialogValue: String) {
+                    this@CloudActivity.onResolveOkPressed(dialogValue)
+                }
+
+
+            })
+            dialog.show(supportFragmentManager, "Resolve")
+
+        }
     }
 
+    private fun onResolveOkPressed(dialogValue: String) {
+        val shortCode = Integer.parseInt(dialogValue)
+        val cloudAnchorId = storageHelper.getCloudAnchorID(this, shortCode)
+
+        val resolvedAnchor = arFragment.arSceneView.session?.resolveCloudAnchor(cloudAnchorId)
+        setCloudAnchor(resolvedAnchor)
+        placeObject(cloudAnchor, ArModel.COFFEE.getUri())
+        snackbarHelper.showMessage(this, "Now Resolving Anchor...")
+        appAnchorState = AppAnchorState.RESOLVING
+    }
+
+    @Synchronized
     private fun checkUpdatedAnchor() {
-        if (appAnchorState !== AppAnchorState.HOSTING) {
+        if (appAnchorState !== AppAnchorState.HOSTING && appAnchorState !== AppAnchorState.RESOLVING) {
             return
         }
         val cloudState = cloudAnchor?.getCloudAnchorState()
 
-        if (appAnchorState === AppAnchorState.HOSTING) {
-            if (cloudState == null || cloudState.isError) {
-                snackbarHelper.showMessageWithDismiss(this, "Error hosting anchor.. $cloudState")
-                appAnchorState = AppAnchorState.NONE
+        if (appAnchorState == AppAnchorState.HOSTING) {
+            if (cloudState == null || cloudState.isError()) {
+                snackbarHelper.showMessageWithDismiss(this, "Error hosting anchor: " + cloudState);
+                appAnchorState = AppAnchorState.NONE;
             } else if (cloudState == Anchor.CloudAnchorState.SUCCESS) {
-                snackbarHelper.showMessageWithDismiss(this, "Anchor hosted with id " + cloudAnchor?.getCloudAnchorId())
-                appAnchorState = AppAnchorState.HOSTED
+                val shortCode = storageHelper.nextShortCode(this);
+                storageHelper.storeUsingShortCode(this, shortCode, cloudAnchor?.getCloudAnchorId());
+                snackbarHelper.showMessageWithDismiss(
+                    this, "Anchor hosted successfully! Cloud Short Code: " + shortCode
+                );
+                appAnchorState = AppAnchorState.HOSTED;
+            }
+        } else if (appAnchorState == AppAnchorState.RESOLVING) {
+            if (cloudState == null || cloudState.isError()) {
+                snackbarHelper.showMessageWithDismiss(this, "Error resolving anchor: " + cloudState);
+                appAnchorState = AppAnchorState.NONE;
+            } else if (cloudState == Anchor.CloudAnchorState.SUCCESS) {
+                snackbarHelper.showMessageWithDismiss(this, "Anchor resolved successfully!");
+                appAnchorState = AppAnchorState.RESOLVED;
             }
         }
     }
