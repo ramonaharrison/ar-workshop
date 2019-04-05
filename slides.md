@@ -853,4 +853,24 @@ Invoke these two new functions from the update loop.
 
 ---
 
+# Cloud anchors
+
+---
+
+# Cloud anchors
+
+Cloud Anchors let you share ARCore (or ARKit!) anchors across multiple devices to create a shared AR experience.
+
+---
+
+# Cloud anchors
+
+ARCore uses Google servers to host and resolve anchors.
+
+---
+
+# Goal: Create an augmented sculpture garden
+
+___
+
 # Grazie!
