@@ -41,6 +41,10 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, FacesActivity::class.java))
                 true
             }
+            R.id.action_cloud -> {
+                startActivity(Intent(this, CloudActivity::class.java))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
