@@ -24,7 +24,7 @@
 # About this workshop
 
 - We're going to build an AR Stickers app using ARCore and Sceneform.
-- We'll cover AR fundamentals, drawing 3D shapes, importing and editing 3D models, user interactions, augmented faces, and cloud anchors.
+- We'll cover AR fundamentals, drawing 3D shapes, importing and editing 3D models, user interactions, and augmented faces.
 
 ---
 
@@ -367,7 +367,7 @@ Create a new function in `MainActivity`:
         MaterialFactory.makeOpaqueWithColor(this, com.google.ar.sceneform.rendering.Color(color))
             .thenAccept { material ->
                 val shape = ShapeFactory.makeSphere(radius, Vector3(centerX, centerY, centerZ), material)
-                addNodeToScene(anchor, shape)
+
             }
     }
 ```
@@ -390,7 +390,7 @@ We need a way to add our sphere to the **scene**. We'll do that by creating a `N
 
 # Nodes
 
-Create a new function in `MainActivity`:
+Create a new function in `MainActivity`, and call it in your `addSphere` method:
 
 ```kotlin
     private fun addNodeToScene(anchor: Anchor, renderable: Renderable) {
@@ -400,6 +400,14 @@ Create a new function in `MainActivity`:
         node.setParent(anchorNode)
         arFragment.arSceneView.scene.addChild(anchorNode)
     }
+
+    private fun addSphere(color: Int, anchor: Anchor, radius: Float, centerX : Float, centerY: Float, centerZ : Float) {
+            MaterialFactory.makeOpaqueWithColor(this, com.google.ar.sceneform.rendering.Color(color))
+                .thenAccept { material ->
+                    val shape = ShapeFactory.makeSphere(radius, Vector3(centerX, centerY, centerZ), material)
+                    addNodeToScene(anchor, shape)
+                }
+        }
 ```
 
 --- 
@@ -844,9 +852,5 @@ Invoke these two new functions from the update loop.
 # Run it!
 
 ---
-
-# Cloud anchors
-
-___
 
 # Grazie!
