@@ -6,4 +6,9 @@
           android:title="Augmented Faces"
           android:orderInCategory="100"
           app:showAsAction="never"/>
+
+    <item android:id="@+id/action_cloud"
+        android:title="Cloud Anchors"
+        android:orderInCategory="200"
+        app:showAsAction="never"/>
 </menu>

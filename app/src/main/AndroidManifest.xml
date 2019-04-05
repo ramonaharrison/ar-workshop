@@ -4,6 +4,7 @@
           package="com.nytimes.android.ramonaharrison">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
             android:allowBackup="true"
@@ -18,6 +19,8 @@
                 android:label="@string/title_activity_faces"
                 android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
+        <meta-data android:name="com.google.android.ar.API_KEY" android:value="AIzaSyDtKHgC-rDcARo984r1I7HgBLzu4cErgVI"/>
 
         <provider
                 android:name="androidx.core.content.FileProvider"
@@ -39,6 +42,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".CloudActivity"
+            android:label="Cloud Anchors"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
     </application>
 
 </manifest>
